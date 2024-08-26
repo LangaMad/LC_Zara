@@ -1,2 +1,2 @@
 print('Hello from master')
-hello from branch Aidai
+print('hello from branch Aidai')
