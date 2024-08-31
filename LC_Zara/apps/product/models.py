@@ -67,6 +67,9 @@ class Country(models.Model):
         verbose_name = 'Страна производитель'
         verbose_name_plural = 'Страны производители'
 
+    def __str__(self):
+        return self.name
+
 class ClothesSize(models.TextChoices):
     XS = 'XS', 'Экстра маленький'
     S = 'S', 'Маленький'
