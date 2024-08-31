@@ -52,6 +52,7 @@ class Fabric(models.Model):
 
 class Brand(models.Model):
     name = models.CharField('Название бренда', max_length=200)
+    logo = models.ImageField('Лого', upload_to='logo/')
 
     class Meta:
         verbose_name = 'Бренд'
