@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from PIL.ImImagePlugin import number
 from django.db import models
 
