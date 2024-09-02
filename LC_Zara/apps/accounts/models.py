@@ -5,6 +5,7 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django import forms
+from django.db.models import ManyToManyField
 
 
 class UserManager(BaseUserManager):
@@ -34,117 +35,116 @@ class User(AbstractUser):
         ('male', 'male'),
         ('female', 'female'),
     ]
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    second_name = models.CharField(max_length=50)
+    first_name = models.CharField('Имя', max_length=50)
+    last_name = models.CharField('Фамилия', max_length=50)
+    second_name = models.CharField('Отчество', max_length=50)
     email = models.EmailField('Почта', unique=True)
     avatar = models.ImageField('Аватар', upload_to='avatars/', null=True, blank=True)
-    number = models.IntegerField()
-    gender = forms.ChoiceField(choices=GENDER_CHOICES)
-    favorite_brand = models.CharField(max_length=50)
-    favorite_product = models.CharField(max_length=50)
+    phone_number = models.IntegerField('Номер тел.', max_length=15)
+    gender = forms.ChoiceField('Пол', choices=GENDER_CHOICES)
+    favorite_brand = models.ManyToManyField('Лучший бренд', max_length=50)
+    favorite_product = models.ManyToManyField('Лучший продукт', max_length=50)
+
     objects = UserManager()
 
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.first_name}, {self.last_name}'
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
 
-
-
-# Balance model
+#
+ # Balance model
 class Balance(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    user = models.OneToOneField('Пользователь', User, on_delete=models.CASCADE)
+    amount = models.DecimalField('Текущий баланс', max_digits=10, decimal_places=2, default=0.00)
+    email = models.EmailField('Почта', unique=True)
+    gift_certificate = models.CharField('Подарочный сертификат', max_length=50)
+    last_updated = models.DateTimeField('Последнее обновление', auto_now=True)
+    popolnit_balans = models.IntegerField('Пополнить баланс', auto_now=True)
 
     def __str__(self):
         return f"Balance for {self.user.email}: {self.amount}"
+        return f"last_updated for {self.user.email}: {self.amount}"
+
 
     class Meta:
         verbose_name = 'Balance'
         verbose_name_plural = 'Balances'
 
+
+
 # Payment Method model
 class PaymentMethod(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payment_methods')
-    method_name = models.CharField(max_length=50)
-    card_number = models.CharField(max_length=20)  # Simplified card number storage
+    CARD_TYPE_CHOICES = [
+        ('MBANK', 'MBANK'),
+        ('Optima Bank', 'Optima Bank'),
+    ]
+    email = models.EmailField('Почта', unique=True)
+    user = models.ForeignKey('Пользователь', User, on_delete=models.CASCADE, related_name='payment_methods')
+    method_name = models.CharField('Имя способа оплаты', max_length=50)
+    card_number = models.CharField('Номер карты', max_length=20)  # Simplified card number storage
+    tri_sifry_na_oborotke_karty = models.IntegerField('ТРи цифры на оборотке карты', max_length=3)
+    сard_type = models.CharField(max_length=10, choices=CARD_TYPE_CHOICES, default='credit')
 
     def __str__(self):
         return f"{self.user.email} - {self.method_name}"
+
 
     class Meta:
         verbose_name = 'Payment Method'
         verbose_name_plural = 'Payment Methods'
 
 
+
+
 # Installment model
-class Installment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='installments')
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    due_date = models.DateField()
-    paid = models.BooleanField(default=False)
+class Rassrochka(models.Model):
+    user = models.ForeignKey('Пользователь', User, on_delete=models.CASCADE, related_name='Rassrochki')
+    email = models.EmailField('Почта', unique=True)
+    amount = models.DecimalField('Текущий баланс', max_digits=10, decimal_places=2)
+    due_date = models.DateField('Срок оплаты', auto_now=True)
+    paid = models.BooleanField('Оплачено', default=False)
 
     def __str__(self):
-        return f"Installment for {self.user.email} - Amount: {self.amount}, Due: {self.due_date}"
+        return f"Rassrochka for {self.user.email} - Amount: {self.amount}, Due: {self.due_date}"
 
     class Meta:
-        verbose_name = 'Installment'
-        verbose_name_plural = 'Installments'
+        verbose_name = 'Rassrochka'
+        verbose_name_plural = 'Rassrochki'
+
+
+
 
 # Receipt model
-class Receipt(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receipts')
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
-    description = models.TextField(blank=True, null=True)
+class Chek(models.Model):
+    user = models.ForeignKey('Пользователь', User, on_delete=models.CASCADE, related_name='Cheki')
+    amount = models.DecimalField('Текущий баланс', max_digits=10, decimal_places=2)
+    date = models.DateField('Дата', auto_now=True)
+    description = models.TextField('Описание', blank=True, null=True)
 
     def __str__(self):
-        return f"Receipt for {self.user.email} - Amount: {self.amount}, Date: {self.date}"
+        return f"Chek for {self.user.email} - Amount: {self.amount}, Date: {self.date}"
 
     class Meta:
-        verbose_name = 'Receipt'
-        verbose_name_plural = 'Receipts'
+        verbose_name = 'Chek'
+        verbose_name_plural = 'Cheki'
+
+
 
 # Purchase model
-class Purchase(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchases')
-    item_name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    purchase_date = models.DateField()
+class Pokupka(models.Model):
+    user = models.ForeignKey('Пользователь', User, on_delete=models.CASCADE, related_name='Pokupki')
+    product_name = models.CharField('Название продукта', max_length=100)
+    amount = models.DecimalField('Текущий баланс', max_digits=10, decimal_places=2)
+    Pokupka_date = models.DateField('День покупки',  auto_now=True)
 
     def __str__(self):
-        return f"Purchase by {self.user.email} - Item: {self.item_name}, Amount: {self.amount}"
+        return f"Pokupka by {self.user.email} - product: {self.product_name}, Amount: {self.amount}"
 
     class Meta:
-        verbose_name = 'Purchase'
-        verbose_name_plural = 'Purchases'
-
-# Favorite Brand model
-class FavoriteBrand(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite_brands')
-    brand_name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.user.email} - {self.brand_name}"
-# hello
-
-    class Meta:
-        verbose_name = 'Favorite Brand'
-        verbose_name_plural = 'Favorite Brands'
-
-# Favorite Item model
-class FavoriteItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite_items')
-    item_name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.user.email} - {self.item_name}"
-
-    class Meta:
-        verbose_name = 'Favorite Item'
-        verbose_name_plural = 'Favorite Items'
+        verbose_name = 'Pokupka'
+        verbose_name_plural = 'Pokupki'
