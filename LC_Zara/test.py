@@ -1,0 +1,5 @@
+print('Hello from master')
+print('hello from branch Aidai')
+print('Salam Aleikum')
+print('Salam Aleikum again')
+print('Hello from branch nuris')
