@@ -1,7 +1,7 @@
-from django.urls import path
-from . import views
+# from django.urls import path
+# from . import views
 
-urlpatterns = [
+# urlpatterns = [
     # # Примеры пользовательских представлений
     # path('users/', views.user_list, name='user_list'),
     # path('users/<int:id>/', views.user_detail, name='user_detail'),
@@ -12,4 +12,4 @@ urlpatterns = [
     # path('purchases/', views.purchase_list, name='purchase_list'),
     # path('favorite-brands/', views.favorite_brand_list, name='favorite_brand_list'),
     # path('favorite-items/', views.favorite_item_list, name='favorite_item_list'),
-]
+# ]
