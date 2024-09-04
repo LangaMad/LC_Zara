@@ -70,28 +70,48 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
-class ClothesSize(models.TextChoices):
-    XS = 'XS', 'Экстра маленький'
-    S = 'S', 'Маленький'
-    M = 'M', 'Средний'
-    L = 'L', 'Большой'
-    XL = 'XL', 'Экстра большой'
+class Product(models.Model):
+    PRODUCT_TYPE_CHOICES = (
+        ('clothes', 'Одежда'),
+        ('trousers', 'Брюки'),
+        ('shoe', 'Обувь'),
+        ('accessory', 'Аксессуар'),
+    )
 
-class Clothes(models.Model):
-    title = models.CharField('Название одежды', max_length=200)
+    title = models.CharField('Название', max_length=200)
     description = models.TextField('Описание', blank=True, null=True)
-    size = models.CharField('Размер', max_length=2, choices=ClothesSize.choices)
     gender = models.CharField('Пол', max_length=1, choices=Gender.choices, default=Gender.UNISEX)
     color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, verbose_name='Цвет')
-    fabric = models.ForeignKey(Fabric, on_delete=models.SET_NULL, null=True, verbose_name='Материал')
+    material = models.ForeignKey(Fabric, on_delete=models.SET_NULL, null=True, verbose_name='Материал')
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, verbose_name='Бренд')
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name='Страна производитель')
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
     available = models.BooleanField('В наличии', default=True)
     quantity = models.IntegerField('Количество', default=0)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='clothes')
-    photo = models.ImageField('Фотография', upload_to='clothes/', blank=True, null=True)
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='products')
+    photo = models.ImageField('Фотография', upload_to='products/', blank=True, null=True)
     slug = models.SlugField('Slug', unique=True)
+    product_type = models.CharField('Тип продукта', max_length=10, choices=PRODUCT_TYPE_CHOICES)
+
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
+        ordering = ['title']
+
+    def __str__(self):
+        return f"{self.get_product_type_display()} - {self.title}"
+
+class Clothes(Product):
+    CLOTHES_SIZE_CHOICE = (
+        ('XS', 'Экстра маленький'),
+        ('S', 'Маленький'),
+        ('M', 'Средний'),
+        ('L', 'Большой'),
+        ('XL', 'Экстра большой'),
+        ('XXL', 'Двойной экстра большой')
+    )
+
+    clothes_size = models.CharField('Размер', max_length=3, choices=CLOTHES_SIZE_CHOICE)
 
     class Meta:
         verbose_name = 'Одежда'
@@ -100,31 +120,61 @@ class Clothes(models.Model):
     def __str__(self):
         return self.title
 
-class ShoeSize(models.Model):
-    size = models.CharField('Размер обуви', max_length=10)
+class Trousers(Product):
+    WAIST_SIZES = (
+        ('28', '28'),
+        ('30', '30'),
+        ('32', '32'),
+        ('34', '34'),
+        ('36', '36'),
+        ('38', '38'),
+        ('40', '40'),
+    )
+    LENGTH_SIZES = (
+        ('30', '30'),
+        ('32', '32'),
+        ('34', '34'),
+        ('36', '36'),
+    )
+
+    waist_size = models.CharField('Обхват талии', max_length=2, choices=WAIST_SIZES)
+    length_size = models.CharField('Длина брюк', max_length=2, choices=LENGTH_SIZES)
 
     class Meta:
-        verbose_name = 'Размер обуви'
-        verbose_name_plural = 'Размеры обуви'
+        verbose_name = 'Брюки'
+        verbose_name_plural = 'Брюки'
 
     def __str__(self):
-        return self.size
+        return self.title
 
-class Shoe(models.Model):
-    title = models.CharField('Название обуви', max_length=200)
-    description = models.TextField('Описание', blank=True, null=True)
-    size = models.ForeignKey(ShoeSize, on_delete=models.SET_NULL, null=True, verbose_name='Размер')
-    gender = models.CharField('Пол', max_length=1, choices=Gender.choices, default=Gender.UNISEX)
-    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, verbose_name='Цвет')
-    material = models.ForeignKey(Fabric, on_delete=models.SET_NULL, null=True, verbose_name='Материал')
-    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, verbose_name='Бренд')
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name='Страна производитель')
-    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
-    available = models.BooleanField('В наличии', default=True)
-    quantity = models.IntegerField('Количество', default=0)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='shoes')
-    photo = models.ImageField('Фотография', upload_to='shoes/', blank=True, null=True)
-    slug = models.SlugField('Slug', unique=True)
+class Shoes(Product):
+    EUROPEAN_SIZES = (
+        ('35', '35'),
+        ('36', '36'),
+        ('37', '37'),
+        ('38', '38'),
+        ('39', '39'),
+        ('40', '40'),
+        ('41', '41'),
+        ('42', '42'),
+        ('43', '43'),
+        ('44', '44'),
+        ('45', '45'),
+    )
+
+    US_SIZES = (
+        ('5', '5'),
+        ('6', '6'),
+        ('7', '7'),
+        ('8', '8'),
+        ('9', '9'),
+        ('10', '10'),
+        ('11', '11'),
+        ('12', '12'),
+    )
+
+    size_eu = models.CharField('Размер (Европейский)', max_length=2, choices=EUROPEAN_SIZES, blank=True, null=True)
+    size_us = models.CharField('Размер (Американский)', max_length=2, choices=US_SIZES, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Обувь'
@@ -133,21 +183,7 @@ class Shoe(models.Model):
     def __str__(self):
         return self.title
 
-class Accessory(models.Model):
-    title = models.CharField('Название аксессуара', max_length=200)
-    description = models.TextField('Описание', blank=True, null=True)
-    gender = models.CharField('Пол', max_length=1, choices=Gender.choices, default=Gender.UNISEX)
-    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, verbose_name='Цвет')
-    material = models.ForeignKey(Fabric, on_delete=models.SET_NULL, null=True, verbose_name='Материал')
-    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, verbose_name='Бренд')
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name='Страна производитель')
-    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
-    available = models.BooleanField('В наличии', default=True)
-    quantity = models.IntegerField('Количество', default=0)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='accessories')
-    photo = models.ImageField('Фотография', upload_to='accessories/', blank=True, null=True)
-    slug = models.SlugField('Slug', unique=True)
-
+class Accessory(Product):
     class Meta:
         verbose_name = 'Аксессуар'
         verbose_name_plural = 'Аксессуары'
@@ -155,3 +191,6 @@ class Accessory(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
