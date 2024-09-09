@@ -1,52 +1,30 @@
-<<<<<<< HEAD
-from django.forms import model_to_dict
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-
-from .models import TestProduct
-from .serializers import TestProductSerializer
-
-
-
-
-class TestProductListView(APIView):
-    def get(self, request):
-        posts = TestProduct.objects.all().values()
-        return Response({'posts': list(posts)})
-#         products = TestProduct.objects.all()
-#         serializer = TestProductSerializer(products, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def post(self, request):
-        new_product = TestProduct.objects.create(
-            name=request.data['name'],
-            description=request.data['description'],
-            price=request.data['price'],
-            stock=request.data['stock'],
-        )
-        return Response({'post': model_to_dict(new_product)})
-#         serializer = TestProductSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-# from rest_framework.generics import ListCreateAPIView
-
-# class TestProductListCreateView(ListCreateAPIView):
-#     queryset = TestProduct.objects.all()
-#     serializer_class = TestProductSerializer
-=======
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.forms.models import model_to_dict
 from rest_framework.response import Response
-from rest_framework import generics
+
+from rest_framework import generics, viewsets, mixins
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.viewsets import GenericViewSet
+
 from .models import TestProduct
 from .serializer import ProductSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = TestProduct.objects.all()
+    serializer_class = ProductSerializer
+
+
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+
+class ProdcutsViewSet(mixins.CreateModelMixin,
+                      mixins.RetrieveModelMixin,
+                      mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin,
+                      mixins.ListModelMixin,
+                      GenericViewSet):
+    queryset = TestProduct.objects.all()
+    serializer_class = ProductSerializer
 
 
 # Create your views here.
@@ -107,5 +85,3 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
 #
 #
 #
-
->>>>>>> 77f08be8cec50379e7cb9f08a7aeb7e2118530d4
