@@ -3,13 +3,10 @@ from django.db import models
 
 class TestProduct(models.Model):
     name = models.CharField('Название', max_length=200) # подгузник
-    slug = models.SlugField('Slug', unique=True) # podguznik
     description = models.TextField('Описание', blank=True, null=True)
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField('Количество на складе')
-    available = models.BooleanField('В наличии', default=True)
-    created = models.DateTimeField('Дата создания', auto_now_add=True)
-    updated = models.DateTimeField('Дата обновления', auto_now=True)
+    available = models.BooleanField('В наличии', default=True, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Товар'
