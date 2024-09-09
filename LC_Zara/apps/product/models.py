@@ -5,8 +5,13 @@ class TestProduct(models.Model):
     name = models.CharField('Название', max_length=200) # подгузник
     description = models.TextField('Описание', blank=True, null=True)
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
+<<<<<<< HEAD
     stock = models.PositiveIntegerField('Количество на складе')
     available = models.BooleanField('В наличии', default=True, null=True, blank=True)
+=======
+    stock = models.PositiveIntegerField('Количество на складе', null = True, blank = True)
+    available = models.BooleanField('В наличии', default=True)
+>>>>>>> 77f08be8cec50379e7cb9f08a7aeb7e2118530d4
 
     class Meta:
         verbose_name = 'Товар'
