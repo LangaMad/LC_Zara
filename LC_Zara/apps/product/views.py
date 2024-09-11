@@ -2,9 +2,22 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from django.forms.models import model_to_dict
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics , viewsets , mixins
 from .models import TestProduct
 from .serializer import ProductSerializer
+from rest_framework.viewsets import GenericViewSet
+
+
+
+
+class ProductViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
+
+    queryset = TestProduct.objects.all()
+    serializer_class = ProductSerializer
 
 
 # Create your views here.
