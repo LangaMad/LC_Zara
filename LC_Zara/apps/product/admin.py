@@ -10,3 +10,9 @@ class TestProductAdmin(admin.ModelAdmin):
         'price', 'stock', 'available',
 
         ]
+@admin.register(TestProduct)
+class TestProductAdmin(admin.ModelAdmin):
+    list_display = [
+        'id', 'name',  'description',
+        'price', 'stock', 'available',
+        ]
