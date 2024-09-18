@@ -12,6 +12,11 @@ router.register(r'products', ProductViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),
+
+    # auth 
+    path('api/v1/drf-auth/', include('rest_framework.urls')),
+
+    # generics
     # path('api/v1/products/<int:pk>/', ProductDetailApiView.as_view(), name='product'),
     # path('api/v1/products/create/', ProductCreateApiView.as_view(), name='product-create'),
     # path('api/v1/products/<int:pk>/update/', ProductUpdateApiView.as_view(), name='product-update'),

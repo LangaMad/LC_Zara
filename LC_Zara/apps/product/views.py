@@ -73,7 +73,7 @@ from .permissions import IsOwnerOrReadOnly
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
     
     @action(methods=['get'], detail=False)
     def category(self, request, pk=None):
