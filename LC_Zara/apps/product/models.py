@@ -1,16 +1,26 @@
 from django.db import models
 
+class TestCategory(models.Model):
+    name = models.CharField('Название', max_length=200)
+    description = models.TextField('Описание', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return self.name
+
+
+
 
 class TestProduct(models.Model):
     name = models.CharField('Название', max_length=200) # подгузник
-    slug = models.SlugField('Slug', unique=True) # podguznik
     description = models.TextField('Описание', blank=True, null=True)
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField('Количество на складе')
+    stock = models.PositiveIntegerField('Количество на складе', blank=True, null=True)
     available = models.BooleanField('В наличии', default=True)
-    created = models.DateTimeField('Дата создания', auto_now_add=True)
-    updated = models.DateTimeField('Дата обновления', auto_now=True)
-
+    category = models.ForeignKey(TestCategory, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'

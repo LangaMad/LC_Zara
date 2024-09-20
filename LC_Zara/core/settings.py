@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # librarys and frameworks
     'rest_framework',
+    'rest_framework.authtoken',
+    'drf_yasg',
+    'djoser',
+
+    # apps
     'apps.product',
     'apps.cart',
     'apps.accounts',
@@ -75,7 +81,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BaseAuthentication',]
+}
 
 
 # Database
