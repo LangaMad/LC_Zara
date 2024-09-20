@@ -1,4 +1,4 @@
-from django.urls import path , include
+from django.urls import path , include,  re_path
 from .views import *
 
 from rest_framework import routers
@@ -10,7 +10,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/drf-auth/', include('rest_framework.urls')),
     path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
     # path('api/v1/products/<int:pk>/', ProductDetailApiView.as_view(), name='product'),
     # path('api/v1/products/create-prod', ProductListCreateApiView.as_view(), name='product-create'),
     # path('api/v1/products/<int:pk>/update/', ProductUpdateApiView.as_view(), name='product-update'),
