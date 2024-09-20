@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'djoser',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'apps.product',
     'apps.cart',
     'apps.accounts',
     'apps.home',
-    'apps.comment'
+    'apps.comment',
+    'djoser',
 
 ]
 
@@ -79,6 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -93,6 +96,16 @@ DATABASES = {
     }
 }
 
+
+
+REST_FRAMEWORK = {
+'DEFAULT_PERMISSION_CLASSES': [
+   'rest_framework.permissions.IsAuthenticated',
+    ],
+'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -135,5 +148,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
