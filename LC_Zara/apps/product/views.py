@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.forms.models import model_to_dict
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework import generics , viewsets , mixins
 from .models import TestProduct,TestCategory
@@ -16,7 +17,8 @@ from .permissions import IsOwnerOrReadOnly
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
 
     @action(methods=['get'], detail=False)
     def category(self, request):
@@ -28,6 +30,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class ProductListApiView(generics.ListAPIView):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [TokenAuthentication]
 
 class ProductDetailApiView(generics.RetrieveAPIView):
     queryset = TestProduct.objects.all()
@@ -54,7 +57,7 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
 # peace do ball
 
 
-
+# name = {'keys':{'asjfa':'data sdg'}}
 #
 # class ProductApiView(APIView):
 #     def get(self, request):
