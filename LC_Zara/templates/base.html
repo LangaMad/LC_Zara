@@ -1,19 +1,18 @@
-load sta
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load static %}
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Shoes Store from templatemo</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
-<link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+<link href="{% static 'templatemo_style.css' %}" rel="stylesheet"  type="text/css" />
 
-<link rel="stylesheet" href="nivo-slider.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="{% static 'nivo-slider.css' %}" type="text/css" media="screen" />
 
-<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/ddsmoothmenu.css' %}" />
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ddsmoothmenu.js' %}">
 
 /***********************************************
 * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -54,8 +53,9 @@ ddsmoothmenu.init({
         <div class="cleaner"></div>
     </div> <!-- END of templatemo_header -->
 
-block
+	{% block content %}
 
+	{% endblock %}
 
     <div id="templatemo_footer">
     	<p><a href="#">Home</a> | <a href="#">Products</a> | <a href="#">About</a> | <a href="#">FAQs</a> | <a href="#">Checkout</a> | <a href="#">Contact Us</a>
