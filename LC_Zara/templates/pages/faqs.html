@@ -2,10 +2,11 @@
 
 
     {% block content %}
-<div id="templatemo_menubar">
+
+    <div id="templatemo_menubar">
     	<div id="top_nav" class="ddsmoothmenu">
             <ul>
-                <li><a href="index.html" class="selected">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="products.html">Products</a>
                     <ul>
                         <li><a href="#submenu1">Sub menu 1</a></li>
@@ -22,7 +23,7 @@
                         <li><a href="#submenu3">Sub menu 3</a></li>
                   </ul>
                 </li>
-                <li><a href="faqs.html">FAQs</a></li>
+                <li><a href="faqs.html" class="selected">FAQs</a></li>
                 <li><a href="checkout.html">Checkout</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
@@ -90,79 +91,31 @@
                 </div>
             </div>
         </div>
-        <div id="content" class="float_r">
-        	<div id="slider-wrapper">
-                <div id="slider" class="nivoSlider">
-                    <img src="images/slider/02.jpg" alt="" />
-                    <a href="#"><img src="images/slider/01.jpg" alt="" title="This is an example of a caption" /></a>
-                    <img src="images/slider/03.jpg" alt="" />
-                    <img src="images/slider/04.jpg" alt="" title="#htmlcaption" />
-                </div>
-                <div id="htmlcaption" class="nivo-html-caption">
-                    <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
-                </div>
-            </div>
-            <script type="text/javascript" src="js/jquery-1.4.3.min.js"></script>
-            <script type="text/javascript" src="js/jquery.nivo.slider.pack.js"></script>
-            <script type="text/javascript">
-            $(window).load(function() {
-                $('#slider').nivoSlider();
-            });
-            </script>
-        	<h1>New Products</h1>
-            <div class="product_box">
-	            <h3>Ut eu feugiat</h3>
-            	<a href="productdetail.html"><img src="images/product/01.jpg" alt="Shoes 1" /></a>
-                <p>Nulla rutrum neque vitae erat condimentum eget malesuada.</p>
-                <p class="product_price">$ 100</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.html" class="detail"></a>
-            </div>
-            <div class="product_box">
-            	<h3>Curabitur et turpis</h3>
-            	<a href="productdetail.html"><img src="images/product/02.jpg" alt="Shoes 2" /></a>
-                <p>Sed congue, erat id congue vehicula. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</p>
-              <p class="product_price">$ 80</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.html" class="detail"></a>
-            </div>
-            <div class="product_box no_margin_right">
-            	<h3>Mauris consectetur</h3>
-            	<a href="productdetail.html"><img src="images/product/03.jpg" alt="Shoes 3" /></a>
-                <p>Morbi non risus vitae est vestibulum tincidunt ac eget metus.</p>
-              <p class="product_price">$ 60</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.html" class="detail"></a>
-            </div>
+        <div id="content" class="float_r faqs">
+        	<h1>FAQs</h1>
+            <h5>How do I  know if my order has been placed?</h5>
+            <p>You will  receive an email confirming that your order has been received. If you do not  receive an email confirmation, please login to see your order status.  Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</p>
 
-            <div class="cleaner"></div>
+          <h5>When will my order be shipped?</h5>
+            <p>Please read our shipping policy. Click <a href="#">here</a></p>
 
-<div class="product_box">
-            	<h3>Proin volutpat</h3>
-           	<a href="productdetail.html"><img src="images/product/04.jpg" alt="Shoes 4" /></a>
-            <p>Sed semper euismod dolor sit amet interdum. Phasellus in mi eros.</p>
-      <p class="product_price">$ 220</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.html" class="detail"></a>
-            </div>
-            <div class="product_box">
-	            <h3>Aenean tempus</h3>
-            	<a href="productdetail.html"><img src="images/product/05.jpg" alt="Shoes 5" /></a>
-                <p>Maecenas porttitor erat quis leo pellentesque molestie.</p>
-              <p class="product_price">$ 180</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.html" class="detail"></a>
-            </div>
-            <div class="product_box no_margin_right">
-            	<h3>Nulla luctus urna</h3>
-            	<a href="productdetail.html"><img src="images/product/06.jpg" alt="Shoes 6" /></a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p class="product_price">$ 160</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.html" class="detail"></a>
-            </div>
+            <h5>What payment methods do you accept?</h5>
+            <p>PayPal and 2Checkout (2CO)</p>
+
+            <h5>Can I return or exchange my purchase if I don't like it?</h5>
+            <p>Please read our exchange policy. Click <a href="#">here</a></p>
+
+            <h5>How do I know if online ordering is secured?</h5>
+            <p>
+            Protecting your information is a  top priority for this site. We use Secure Sockets Layer (SSL) to encrypt your  credit card number, name and address, so only this site is able to decode  your information. SSL is the industry standard method for computers to  communicate securely without risk of data interception, manipulation or  recipient impersonation. To be sure your connection is secure; when you are in  the Shopping Cart, look at the lower corner of your browser window. If you see  an unbroken key or closed lock, the SSL is active and your information is  secure. Since most of the customers are still uncomfortable with providing your  credit card online, we use PayPal and 2CheckOut services and they do not need to  give out credit card information.</p>
+          <p>
+          This site is registerd with HackerGuardian. HackerGuardian certification for  a hacker free website and a Credit Card TrustLogo confirming your  trustworthiness to take credit card details online.</p>
+
+
+            <h5>What is your privacy policy?</h5>
+            <p>This website respects your privacy and ensure that  you understand what information we need to complete your order, and what  information you can choose to share with us and with our marketing partners.  For complete information on our privacy policy, please visit our <a href="#">Privacy Policy</a>  page.</p>
         </div>
         <div class="cleaner"></div>
     </div> <!-- END of templatemo_main -->
 
-    {% endblock %}
+        {% endblock %}
