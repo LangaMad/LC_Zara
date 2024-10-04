@@ -8,3 +8,10 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestProduct
         fields = ['id','name','description','price','stock','available']
+
+
+
+
+
+
+

@@ -1,30 +1,36 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.forms.models import model_to_dict
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
-
-from rest_framework import generics, viewsets, mixins
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-
-from .models import TestProduct
+from rest_framework import generics , viewsets , mixins
+from .models import TestProduct,TestCategory
 from .serializer import ProductSerializer
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.decorators import action
+from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
+IsAdminUser,AllowAny,IsAuthenticated)
+from .permissions import IsOwnerOrReadOnly
+
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
 
+    @action(methods=['get'], detail=False)
+    def category(self, request):
+        cats = TestCategory.objects.all().values()
+        return Response({'cats': [cats]})
 
+# Create your views here.
 
-class ProdcutsViewSet(mixins.CreateModelMixin,
-                      mixins.RetrieveModelMixin,
-                      mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin,
-                      mixins.ListModelMixin,
-                      GenericViewSet):
+class ProductListApiView(generics.ListAPIView):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
-
+    authentication_classes = [TokenAuthentication]
 
 class ProductDetailApiView(generics.RetrieveAPIView):
     queryset = TestProduct.objects.all()
@@ -45,12 +51,13 @@ class ProductDeleteApiView(generics.DestroyAPIView):
 class ProductListCreateApiView(generics.ListCreateAPIView):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
+
 # chop is dish
 #
 # peace do ball
 
 
-
+# name = {'keys':{'asjfa':'data sdg'}}
 #
 # class ProductApiView(APIView):
 #     def get(self, request):
@@ -77,4 +84,12 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
 #     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
 #
-#
+
+# get - Получить данные
+# post - Отправить данные
+# put - Полное обновление данных
+# patch - частичное обновление данных
+# delete - Удалить данные
+# head - Получить заголовки
+# options - Получить доступные методы
+
