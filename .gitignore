@@ -8,9 +8,12 @@ media
 
 # Backup files #
 *.bak
-
+migrations/
+migrations
+/migrations
 # If you are using PyCharm #
 # User-specific stuff
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
@@ -19,7 +22,7 @@ media
 
 # AWS User-specific
 .idea/**/aws.xml
-
+.idea/
 # Generated files
 .idea/**/contentModel.xml
 
