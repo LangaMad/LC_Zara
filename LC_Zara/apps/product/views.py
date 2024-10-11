@@ -12,8 +12,6 @@ from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
 IsAdminUser,AllowAny,IsAuthenticated)
 from .permissions import IsOwnerOrReadOnly
 
-
-
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = TestProduct.objects.all()
     serializer_class = ProductSerializer
