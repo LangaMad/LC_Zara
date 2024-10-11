@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,18 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_framework_simplejwt',
+    # 'rest_framework',
+    # 'rest_framework.authtoken',
+    # 'rest_framework_simplejwt',
     'apps.product',
     'apps.cart',
     'apps.accounts',
     'apps.home',
     'apps.comment',
-    'djoser',
-    'oauth2_provider',
-    'social_django',
-    'drf_social_oauth2',
+    # 'djoser',
+    # 'oauth2_provider',
+    # 'social_django',
+    # 'drf_social_oauth2',
 
 ]
 
@@ -71,7 +71,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,8 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -105,21 +105,21 @@ DATABASES = {
 }
 
 
-
-REST_FRAMEWORK = {
-'DEFAULT_PERMISSION_CLASSES': [
-   'rest_framework.permissions.IsAuthenticated',
-    ],
-'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
-        'drf_social_oauth2.authentication.SocialAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-
-    ]
-}
+#
+# REST_FRAMEWORK = {
+# 'DEFAULT_PERMISSION_CLASSES': [
+#    'rest_framework.permissions.IsAuthenticated',
+#     ],
+# 'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+#         'drf_social_oauth2.authentication.SocialAuthentication',
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#
+#     ]
+# }
 
 # AUTHENTICATION_BACKENDS = (
 #
@@ -174,10 +174,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
